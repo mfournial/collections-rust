@@ -1,0 +1,35 @@
+# Use docker image with rust preinstalled for running jobs
+# It's an official image to make sure it works for GP 
+# (Higher tests could include nightly too)
+image: rust
+
+stages: 
+  - build
+  - test
+  - doc
+
+build:
+  script:
+    - cargo build --verbose --all
+
+test:
+  only:
+    - master
+  script:
+    - cargo test --verbose --all
+  #   - mkdir collection_test_coverage
+  #   - mv /builds/waskell/compiler/.stack-work/install/**/**/**/hpc/* WaskellTestCoverage/
+  # artifacts:
+  #   paths:
+  #     - "WaskellTestCoverage/"
+  #   expire_in: 30 days
+
+doc:
+  only:
+    - master
+  script:
+    - cargo doc --verbose --all
+  artifacts:
+    paths:
+      - "target/doc/"
+    expire_in: 30 days
