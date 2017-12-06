@@ -128,6 +128,7 @@ impl<T: PartialEq + PartialOrd + Debug> PartialEq for PriorityQueue<T> {
 
 #[macro_export]
 macro_rules! pqueue {
+    () => (PriorityQueue::new());
     ($elem:expr; $n:expr) => (
     	{
     		let mut temp_pq = PriorityQueue::new();
