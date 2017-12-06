@@ -14,6 +14,5 @@ homepage = "https://www.github.com/mfournial/collections-rust"
 
 [badges]
 travis-ci = { repository = "mfournial/collections-rust" }
-gitlab = { repository = "mmf115/collections-rust" }
 
 [dependencies]
