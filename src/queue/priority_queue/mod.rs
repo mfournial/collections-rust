@@ -22,7 +22,14 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
     }
 
 	pub fn push(&mut self, elem: T) {
-
+		let mut current = self.next_index;
+		self.heap.push(elem);
+		self.next_index += 1;
+		while current != 0 && self.heap[current] > self.heap[parent(current)] {
+			let current_parent = parent(current);
+			self.swap(current, current_parent);
+			current = current_parent;
+		}
 	}
 
 	pub fn size(&self) -> usize {
