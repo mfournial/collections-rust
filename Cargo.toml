@@ -1,6 +1,6 @@
 [package]
 name = "collections-more"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["mfournial (Mike -Mayeul- Fournial)<mayeul.fournial@outlook.com>"]
 description = """
 Common data structure and algorithms for rust-lang to complete the already excellent std::collections
