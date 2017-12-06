@@ -144,18 +144,8 @@ macro_rules! pqueue {
         	)*
         	temp_pq
         }
-        	// <[_]>::into_vec(box [$($x),*])
     );
     ( $($x: expr,)* ) => (pqueue![$($x),*])
-    // ( $($x: expr),* ) => {
-    //     {
-    //         let mut temp_pq = PriorityQueue::new();
-    //         $(
-    //             temp_pq.push($x);
-    //         )*
-    //         temp_pq
-    //     }
-    // };
 }
 
 
