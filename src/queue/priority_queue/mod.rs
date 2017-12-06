@@ -255,7 +255,7 @@ mod tests {
 	}
 
 	#[test]
-	fn priority_queue_can_be_turned_into_a_vector() {
+	fn priority_queue_can_be_turned_into_a_slice() {
 		let pq = pqueue!(1, 6, 2, 8, 4, 3, 2, 10, 7);
 		let expected = vec!(10, 8, 7, 6, 4, 3, 2, 2, 1);
 		assert_eq!(expected.as_slice(), pq.as_slice());
