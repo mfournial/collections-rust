@@ -122,7 +122,7 @@ impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 
 impl<T: PartialEq + PartialOrd + Debug> PartialEq for PriorityQueue<T> {
 	 fn eq(&self, other: &PriorityQueue<T>) -> bool {
-	 	false
+	 	self.heap == other.heap && self.next_index == other.next_index
 	 }
 }
 
@@ -257,7 +257,7 @@ mod tests {
 	#[test]
 	fn priority_queue_can_be_turned_into_a_slice() {
 		let pq = pqueue!(1, 6, 2, 8, 4, 3, 2, 10, 7);
-		let expected = vec!(10, 8, 7, 6, 4, 3, 2, 2, 1);
+		let expected = vec!(10, 8, 3, 7, 4, 2, 2, 1, 6);
 		assert_eq!(expected.as_slice(), pq.as_slice());
 	}
 
