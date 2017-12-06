@@ -1,10 +1,12 @@
+use std::fmt::Debug;
+
 #[derive(Debug)]
-pub struct PriorityQueue<T: PartialOrd + PartialEq> {
+pub struct PriorityQueue<T: PartialOrd + PartialEq + Debug> {
 	heap: Vec<T>,
 	next_index: usize
 }
 
-impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
+impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 	#[inline]
 	pub fn new() -> PriorityQueue<T> {
 		PriorityQueue {
@@ -25,8 +27,9 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 		let mut current = self.next_index;
 		self.heap.push(elem);
 		self.next_index += 1;
+
 		while current != 0 && self.heap[current] > self.heap[parent(current)] {
-			let current_parent = parent(current);
+            let current_parent = parent(current);
 			self.swap(current, current_parent);
 			current = current_parent;
 		}
@@ -47,9 +50,18 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 		Some(&self.heap[0])
 	}
 
-	pub fn pool(&mut self) -> Option<T> {
-		// self.next_index -= 1;
-		None
+	pub fn poll(&mut self) -> Option<T> {
+		if self.is_empty() {
+			return None;
+		}
+
+		let result = self.heap.remove(0);
+		self.next_index -= 1;
+		if self.next_index != 0 {
+			self.siftdown(0);
+		}
+
+		Some(result)
 	}
 
 	pub fn as_slice(&self) -> &[T] {
@@ -62,7 +74,7 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 
 	fn siftdown(&mut self, start_index: usize) {
 		let mut index = start_index;
-		assert!(0 < index && index <= self.next_index);
+		assert!(0 < index && index < self.next_index);
 
 		while !self.is_leaf(index) {
 			let left_ch = left_ch(index);
@@ -89,7 +101,7 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 }
 
 fn parent(child: usize) -> usize {
-	child - 1 / 2
+	(child - 1) / 2
 }
 
 fn right_ch(parent: usize) -> usize {
@@ -100,7 +112,7 @@ fn left_ch(parent: usize) -> usize {
 	parent * 2 + 1
 }
 
-impl<T: PartialOrd> Iterator for PriorityQueue<T> {
+impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 	type Item = T;
 
 	fn next(&mut self) -> Option<T> {
@@ -108,7 +120,7 @@ impl<T: PartialOrd> Iterator for PriorityQueue<T> {
 	}
 }
 
-impl<T: PartialEq + PartialOrd> PartialEq for PriorityQueue<T> {
+impl<T: PartialEq + PartialOrd + Debug> PartialEq for PriorityQueue<T> {
 	 fn eq(&self, other: &PriorityQueue<T>) -> bool {
 	 	false
 	 }
@@ -201,18 +213,29 @@ mod tests {
 	}
 
 	#[test]
-	fn priority_queue_can_peek() {
+	fn priority_queue_can_retrieve_largest() {
+		let mut pq = PriorityQueue::new();
+		pq.push(-4);
+		pq.push(5);
+		pq.push(-3);
+		pq.push(8);
+		pq.push(0);
+		assert_eq!(&8, pq.peek().unwrap());
+	}
+
+	#[test]
+	fn priority_queue_can_peek_with_macro() {
 		let pq1 = pqueue!(1);
 		assert_eq!(&1, pq1.peek().unwrap());
-		let pq2 = pqueue!(5, 4, 3, 2, 1);
-		assert_eq!(&5, pq2.peek().unwrap());
+		let pq2 = pqueue!(-5, 4, 3, 2, 1);
+		assert_eq!(&4, pq2.peek().unwrap());
 		let pq3 = pqueue!('1', '2', '3', '4', '5', '6', '7', '8');
 		assert_eq!(&'8', pq3.peek().unwrap());
 	}
 
 	#[test]
 	fn priority_queue_reorders_on_retrival_of_maximum() {
-		let pq = pqueue!(1, -2, 32, -4, 5, 6, -90);
+		let mut pq = pqueue!(1, -2, 32, -4, 5, 6, -90);
 		pq.poll();
 		pq.poll();
 		pq.poll();
