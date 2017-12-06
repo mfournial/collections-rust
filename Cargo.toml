@@ -1,6 +1,17 @@
 [package]
 name = "collections"
 version = "0.1.0"
-authors = ["mfournial <mayeul.fournial@outlook.com>"]
+authors = ["mfournial (Mike -Mayeul- Fournial)<mayeul.fournial@outlook.com>"]
+description = "Common data structure and algorithms for rust-lang"
+license = "MIT"
+license-file = "LICENSE"
+documentation = "https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/-/jobs/artifacts/master/download?job=doc"
+readme = "README"
+repository = "https://www.github.com/mfournial/collections-rust"
+homepage = "https://www.github.com/mfournial/collections-rust"
+
+[badges]
+travis-ci = { repository = "mfournial/collections-rust" }
+gitlab = { repository = "mmf115/collections-rust" }
 
 [dependencies]
