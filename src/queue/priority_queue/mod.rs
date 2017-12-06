@@ -1,3 +1,11 @@
+pub struct PriorityQueue {}
+
+impl PriorityQueue {
+	pub fn new() -> PriorityQueue {
+		PriorityQueue {}
+	}
+}
+
 
 #[cfg(test)]
 mod tests {
@@ -5,7 +13,7 @@ mod tests {
 
 	#[test]
 	fn priority_queue_creates_with_new_factory() {
-		priority_queue::new();
+		PriorityQueue::new();
 	}
 
 	#[test]
@@ -15,7 +23,7 @@ mod tests {
 
 	#[test]
 	fn priority_queue_is_empty_with_new_factory() {
-		let pq = priority_queue::new();
+		let pq = PriorityQueue::new();
 		assert!(pq.is_empty());
 	}
 
@@ -27,7 +35,7 @@ mod tests {
 
 	#[test]
 	fn priority_queue_can_insert_with_factory() {
-		let pq = priority_queue::new()
+		let pq = PriorityQueue::new()
 			.push(1)
 			.push(5);
 		assert_eq!(2, pq.size());

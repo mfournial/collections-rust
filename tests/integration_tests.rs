@@ -1,4 +1,4 @@
-extern crate collections;
+extern crate collections-more;
 
 #[test]
 fn test_of_it() {
