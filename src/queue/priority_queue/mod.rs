@@ -33,7 +33,7 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 	}
 
 	pub fn size(&self) -> usize {
-		self.heap.len()
+		self.heap.len() // or could equally be self.next_index
 	}
 
 	pub fn is_empty(&self) -> bool {
@@ -58,6 +58,33 @@ impl<T: PartialOrd + PartialEq> PriorityQueue<T> {
 
 	fn swap(&mut self, a: usize, b: usize) {
 		self.heap.swap(a, b)
+	}
+
+	fn siftdown(&mut self, start_index: usize) {
+		let mut index = start_index;
+		assert!(0 < index && index <= self.next_index);
+
+		while !self.is_leaf(index) {
+			let left_ch = left_ch(index);
+			let right_ch = right_ch(index);
+
+			let max_ch_index = if right_ch < self.next_index && self.heap[left_ch] < self.heap[right_ch] {
+				right_ch
+			} else {
+				left_ch
+			};
+
+			if self.heap[max_ch_index] < self.heap[index] {
+				return
+			}
+
+			self.swap(max_ch_index, index);
+			index = max_ch_index;
+		}
+	}
+
+	fn is_leaf(&self, index: usize) -> bool {
+		index >= self.next_index / 2 && index < self.next_index
 	}
 }
 
