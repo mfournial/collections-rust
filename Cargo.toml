@@ -14,5 +14,6 @@ homepage = "https://www.github.com/mfournial/collections-rust"
 
 [badges]
 travis-ci = { repository = "mfournial/collections-rust" }
+maintenance = { status = "experimental" }
 
 [dependencies]
