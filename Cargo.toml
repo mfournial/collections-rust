@@ -5,7 +5,6 @@ authors = ["mfournial (Mike -Mayeul- Fournial)<mayeul.fournial@outlook.com>"]
 description = """
 Common data structure and algorithms for rust-lang to complete the already excellent std::collections
 """
-license = "MIT"
 license-file = "LICENSE"
 documentation = "https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/-/jobs/artifacts/master/download?job=doc"
 readme = "README.md"

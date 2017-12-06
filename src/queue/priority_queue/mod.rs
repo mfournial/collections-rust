@@ -1,6 +1,3 @@
-pub mod priority_queue {
-
-}
 
 #[cfg(test)]
 mod tests {
@@ -38,7 +35,7 @@ mod tests {
 
 	#[test]
 	fn priority_queue_can_insert_with_macro() {
-		let pq = pqueue!(1, 2, 3)
+		let pq = pqueue!(1, 2, 3);
 		assert_eq!(3, pq.size());
 	}
 
