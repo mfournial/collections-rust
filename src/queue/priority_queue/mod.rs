@@ -1,5 +1,53 @@
+// MIT License Mayeul (Mike) Fournial <mayeul.fournial@outlook.com> - 2017
+
 use std::fmt::Debug;
 
+/// A priority queue implementation based on an unbounded max heap.
+/// The elements are ordered by implementation of the PartialOrd trait with
+/// the biggest element readable in `O(1)` time
+///
+/// # Examples
+///
+/// ```
+/// extern crate collections_more;
+/// use collections_more::queue::priority_queue::PriorityQueue;
+/// // snip ..
+/// # fn main() {
+/// let mut pq: PriorityQueue<i32> = PriorityQueue::new();
+/// pq.push(4);
+/// pq.push(-55);
+/// pq.push(9);
+/// pq.push(0);
+///
+/// assert_eq!(4, pq.len()); // Length of the priority queue
+/// assert_eq!(Some(9), pq.poll()); // Removes the biggest element
+/// assert_eq!(3, pq.len()); // Length after polling the biggest element
+///
+/// // Polls max element of the priority queue on each iteration
+/// // Equivalent to "Heapsort" but space inefficient
+/// let mut sorted = Vec::with_capacity(pq.len());
+/// for elem in pq {
+///     sorted.push(elem)
+/// }
+/// assert_eq!(vec!(4, 0, -55), sorted);
+/// # }
+/// 
+/// ```
+///
+/// # Macro and creation
+/// 
+/// For fast creation of priority_queues, one can use the macro that behaves
+/// like the `vec` macro (e.g. `let mut pq = pqueue!(3, 2, 7, -3)`, 
+/// `let pq = pqueue!['c', 'h', 'a', 'r']`).  
+/// We do not provide a `unsafe fn from_raw_part(ptr: *mut T, length: usize,
+/// capacity: usize) -> PriorityQueue<T>) builder as it is too unsafe to do so.
+///
+/// 
+/// # Slicing
+/// 
+/// It is possible to retrieve the priority queue as a slice. However it'll be
+/// in a heap order, not consecutive natural ordering of the elements.
+///
 #[derive(Debug, PartialEq)]
 pub struct PriorityQueue<T: PartialOrd + PartialEq + Debug> {
 	heap: Vec<T>,
@@ -7,6 +55,18 @@ pub struct PriorityQueue<T: PartialOrd + PartialEq + Debug> {
 }
 
 impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
+    /// Constructs a new, empty `PriorityQueue<T>`.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// # #[allow(unused_mut)]
+    /// let mut pq: PriorityQueue<i32> = PriorityQueue::new();
+    /// # }
+    /// ```
 	#[inline]
 	pub fn new() -> PriorityQueue<T> {
 		PriorityQueue {
@@ -15,6 +75,31 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 		}
 	}
 
+    /// Constructs a new, empty `PriorityQueue<T>` with the specified capacity.
+    ///
+    /// The priority queue will be able to hold exactly `capacity` 
+    /// elements without reallocating.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(10);
+    ///
+    /// // The pqueue is empty, even though it has capacity of 10
+    /// assert_eq!(pq.len(), 0);
+    ///
+    /// // These are all done without reallocating...
+    /// for i in 0..10 {
+    ///     pq.push(i);
+    /// }
+    ///
+    /// // ...but this may make the pqueue to reallocate
+    /// pq.push(11);
+    /// # }
+    /// ```
 	#[inline]
 	pub fn with_capacity(capacity: usize) -> PriorityQueue<T> {
         PriorityQueue {
@@ -23,6 +108,22 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
         }
     }
 
+    /// Add an element to the priority queue while keeping the most desired
+    /// element accessible in the same time
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(2);
+    /// pq.push(2);
+    /// pq.push(6);
+    /// assert_eq!(2, pq.len());        // length of the pqueue
+    /// assert_eq!(Some(6), pq.poll()); // max element of pqueue
+    /// # }
+    /// ```
 	pub fn push(&mut self, elem: T) {
 		let mut current = self.next_index;
 		self.heap.push(elem);
@@ -34,14 +135,66 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 		}
 	}
 
-	pub fn size(&self) -> usize {
+    /// Returns the number of elements in the queue
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(2);
+    /// assert_eq!(0, pq.len()); // no elements
+    /// pq.push(2);
+    /// assert_eq!(1, pq.len()); // one elements
+    /// pq.push(6);
+    /// assert_eq!(2, pq.len());
+    /// pq.poll(); 
+    /// assert_eq!(1, pq.len()); // one elements again
+    /// # }
+    /// ```
+    #[inline]
+	pub fn len(&self) -> usize {
 		self.heap.len() // or could equally be self.next_index
 	}
 
+    /// Returns true if there is no element in the queue.  
+    /// Equivalent to `pq.len() == 0`
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(2);
+    /// assert!(pq.is_empty()); // no elements
+    /// pq.push(2);
+    /// assert!(!pq.is_empty()); // one elements
+    /// pq.poll(); 
+    /// assert!(pq.is_empty()); // no element again
+    /// # }
+    /// ```
+    #[inline]
 	pub fn is_empty(&self) -> bool {
 		self.heap.is_empty()
 	}
 
+    /// Returns a borrow to the biggest element of the queue (O(1) time).  
+    /// **returns `None` if queue is empty**
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(2);
+    /// pq.push(2);
+    /// pq.push(6);
+    /// assert_eq!(Some(&6), pq.peek());
+    /// # }
+    /// ```
 	pub fn peek(&self) -> Option<&T> {
 		if self.heap.is_empty() {
 			return None;
@@ -49,6 +202,23 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 		Some(&self.heap[0])
 	}
 
+    /// Retrieves the biggest element of the queue, therefore deleting it from
+    /// the queue.  
+    /// **returns `None` if queue is empty**
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// # extern crate collections_more;
+    /// # use collections_more::queue::priority_queue::PriorityQueue;
+    /// # fn main() {
+    /// let mut pq = PriorityQueue::with_capacity(2);
+    /// pq.push(2);
+    /// pq.push(6);
+    /// assert_eq!(Some(6), pq.poll());
+    /// assert_eq!(1, pq.len());
+    /// # }
+    /// ```
 	pub fn poll(&mut self) -> Option<T> {
 		if self.is_empty() {
 			return None;
@@ -63,10 +233,13 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 		self.heap.pop()
 	}
 
+    /// Extracts a slice containing the entire priority queue.
+    /// *Note the order of the slice will be a heap order, not sorted*
 	pub fn as_slice(&self) -> &[T] {
 		self.heap.as_slice()
 	}
 
+    #[inline]
 	fn swap(&mut self, a: usize, b: usize) {
 		self.heap.swap(a, b)
 	}
@@ -113,6 +286,7 @@ fn left_ch(parent: usize) -> usize {
 impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 	type Item = T;
 
+    ///
 	fn next(&mut self) -> Option<T> {
 		self.poll()
 	}
@@ -155,6 +329,15 @@ mod tests {
 		let _: PriorityQueue<i32> = pqueue!();
 	}
 
+    #[test]
+    fn priority_queue_returns_none_if_empty() {
+        let mut pq: PriorityQueue<i32> = PriorityQueue::new();
+        assert_eq!(None, pq.poll());
+        pq.push(4);
+        pq.poll();
+        assert_eq!(None, pq.poll());
+    }
+
 	#[test]
 	fn priority_queue_is_empty_with_new_factory() {
 		let pq: PriorityQueue<i32> = PriorityQueue::new();
@@ -172,19 +355,19 @@ mod tests {
 		let mut pq = PriorityQueue::new();
 		pq.push(1);
 		pq.push(5);
-		assert_eq!(2, pq.size());
+		assert_eq!(2, pq.len());
 	}
 
 	#[test]
 	fn priority_queue_can_insert_with_macro() {
 		let pq = pqueue!(1, 2, 3);
-		assert_eq!(3, pq.size());
+		assert_eq!(3, pq.len());
 	}
 
 	#[test]
 	fn priority_queue_can_insert_duplicates() {
 		let pq = pqueue!(1, 1, 1, 1);
-		assert_eq!(4, pq.size());
+		assert_eq!(4, pq.len());
 	}
 
 	#[test]
