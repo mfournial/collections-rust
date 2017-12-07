@@ -10,4 +10,8 @@ mod tests {
     fn it_works() {
         assert_eq!(2 + 2, 4);
     }
+    #[test]
+    fn same_as_it() {
+		assert_eq!(2, collections_more::test_next(1));
+    }
 }
