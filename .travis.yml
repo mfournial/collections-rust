@@ -3,11 +3,7 @@ script:
   - cargo build --verbose --all
   - cargo test --verbose --all
   - cargo doc --verbose --all
-addons:
-  artifacts:
-    # Upload documentation online
-    # TODO fix uploading
-    working_dir: target/doc
+
 # Code coverage
 env:
   global:
