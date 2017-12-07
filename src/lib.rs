@@ -1,3 +1,9 @@
+pub mod queue;
+
+pub fn test_next(x: i32) -> i32 {
+	x + 1
+}
+
 #[cfg(test)]
 mod tests {
     #[test]
