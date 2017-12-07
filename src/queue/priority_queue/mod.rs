@@ -286,7 +286,6 @@ fn left_ch(parent: usize) -> usize {
 impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 	type Item = T;
 
-    ///
 	fn next(&mut self) -> Option<T> {
 		self.poll()
 	}
@@ -425,4 +424,17 @@ mod tests {
 		let expected = vec!(10, 8, 3, 7, 4, 2, 2, 1, 6);
 		assert_eq!(expected.as_slice(), pq.as_slice());
 	}
+
+    #[test]
+    fn priority_queue_works_with_heap_elements() {
+        let pq = pqueue!(Box::new(3), Box::new(-2), Box::new(-9), Box::new(-2),
+            Box::new(2), Box::new(3), Box::new(99), Box::new(14), Box::new(5));
+        let expected = vec!(Box::new(99), Box::new(14), Box::new(5), Box::new(3),
+            Box::new(3), Box::new(2), Box::new(-2), Box::new(-2), Box::new(-9));
+        let mut actual = Vec::with_capacity(9);
+        for elem in pq {
+            actual.push(elem);
+        }
+        assert_eq!(expected, actual);
+    }
 }
