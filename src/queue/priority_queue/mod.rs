@@ -29,9 +29,8 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 		self.next_index += 1;
 
 		while current != 0 && self.heap[current] > self.heap[parent(current)] {
-            let current_parent = parent(current);
-			self.swap(current, current_parent);
-			current = current_parent;
+			self.swap(current, parent(current));
+			current = parent(current);
 		}
 	}
 
@@ -55,13 +54,13 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 			return None;
 		}
 
-		let result = self.heap.remove(0);
 		self.next_index -= 1;
+        self.heap.swap(0, self.next_index);
 		if self.next_index != 0 {
 			self.siftdown(0);
 		}
 
-		Some(result)
+		self.heap.pop()
 	}
 
 	pub fn as_slice(&self) -> &[T] {
@@ -74,7 +73,6 @@ impl<T: PartialOrd + PartialEq + Debug> PriorityQueue<T> {
 
 	fn siftdown(&mut self, start_index: usize) {
 		let mut index = start_index;
-		assert!(0 < index && index < self.next_index);
 
 		while !self.is_leaf(index) {
 			let left_ch = left_ch(index);
@@ -116,7 +114,7 @@ impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 	type Item = T;
 
 	fn next(&mut self) -> Option<T> {
-		None
+		self.poll()
 	}
 }
 
@@ -230,11 +228,12 @@ mod tests {
 		pq.poll();
 		pq.poll();
 		pq.poll();
-		assert_eq!(vec!(5, 1, -2, -4, -90).as_slice(), pq.as_slice());
+        pq.poll();
+		assert_eq!(vec!(-2, -4, -90).as_slice(), pq.as_slice());
 	}
 
 	#[test]
-	fn priority_queue_can_be_iterated() {
+	fn priority_queue_can_be_iterated_in_order() {
 		let pq = pqueue!(1, 6, 2, 8, 4, 3, 2, 10, 7);
         let mut actual = vec!();
 		for elem in pq {
