@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct PriorityQueue<T: PartialOrd + PartialEq + Debug> {
 	heap: Vec<T>,
 	next_index: usize
@@ -118,12 +118,6 @@ impl<T: PartialOrd + Debug> Iterator for PriorityQueue<T> {
 	}
 }
 
-impl<T: PartialEq + PartialOrd + Debug> PartialEq for PriorityQueue<T> {
-	 fn eq(&self, other: &PriorityQueue<T>) -> bool {
-	 	self.heap == other.heap && self.next_index == other.next_index
-	 }
-}
-
 #[macro_export]
 macro_rules! pqueue {
     () => (PriorityQueue::new());
@@ -149,7 +143,6 @@ macro_rules! pqueue {
 
 #[cfg(test)]
 mod tests {
-	// Ideas: from Vec, from slice, pqueue![1,2,3]
 	use super::*;
 
 	#[test]
@@ -224,7 +217,7 @@ mod tests {
 
 	#[test]
 	fn priority_queue_reorders_on_retrival_of_maximum() {
-		let mut pq = pqueue!(1, -2, 32, -4, 5, 6, -90);
+		let mut pq = pqueue![1, -2, 32, -4, 5, 6, -90];
 		pq.poll();
 		pq.poll();
 		pq.poll();
@@ -249,5 +242,4 @@ mod tests {
 		let expected = vec!(10, 8, 3, 7, 4, 2, 2, 1, 6);
 		assert_eq!(expected.as_slice(), pq.as_slice());
 	}
-
 }
