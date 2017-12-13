@@ -1,4 +1,5 @@
 pub mod queue;
+pub mod tree;
 
 pub fn test_next(x: i32) -> i32 {
 	x + 1
