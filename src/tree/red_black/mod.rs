@@ -1,16 +1,24 @@
 use std::fmt::Debug;
 
 #[derive(Debug, PartialEq)]
-pub struct RedBlackT<K: PartialOrd + PartialEq + Debug, V: Debug> {
+pub struct RedBlackT<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> {
 	root: Node<K, V>,
 	size: usize,
 }
 
 #[derive(Debug)]
-struct Node<K: PartialOrd + PartialEq + Debug, V: Debug> {
+struct Node<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> {
 	key: K,
 	value: V,
 	colour: Colour
+}
+
+impl<K, V> PartialEq for Node<K, V>
+    where K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq
+{
+	fn eq(&self, other: &Node<K, V>) -> bool {
+		return self.key == other.key && self.value == other.value;
+	}
 }
 
 #[derive(Debug, PartialEq)]
