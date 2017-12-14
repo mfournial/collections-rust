@@ -1,3 +1,24 @@
+use std::fmt::Debug;
+
+#[derive(Debug, PartialEq)]
+pub struct RedBlackT<K: PartialOrd + PartialEq + Debug, V: Debug> {
+	root: Node<K, V>,
+	size: usize,
+}
+
+#[derive(Debug)]
+struct Node<K: PartialOrd + PartialEq + Debug, V: Debug> {
+	key: K,
+	value: V,
+	colour: Colour
+}
+
+#[derive(Debug, PartialEq)]
+enum Colour {
+    Red,
+    Black,
+}
+
 #[cfg(test)]
 mod tests {
 
