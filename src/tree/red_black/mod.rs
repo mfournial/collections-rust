@@ -16,6 +16,12 @@ impl<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> RedBlackT<K, V> {
 		}
 	}
 
+	pub fn insert(&mut self, key: K, value: V) {
+	}
+
+	pub fn remove(&mut self, key: K) -> Option<V> {
+		None	
+	}
 }
 
 #[derive(Debug)]
