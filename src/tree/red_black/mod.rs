@@ -1,9 +1,21 @@
 use std::fmt::Debug;
 
+use self::Colour::*;
+
 #[derive(Debug, PartialEq)]
 pub struct RedBlackT<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> {
-	root: Node<K, V>,
+	root: Option<Node<K, V>>,
 	size: usize,
+}
+
+impl<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> RedBlackT<K, V> {
+	pub fn new() -> RedBlackT<K, V> {
+		RedBlackT {
+			root: None,
+			size: 0
+		}
+	}
+
 }
 
 #[derive(Debug)]
