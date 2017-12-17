@@ -31,7 +31,13 @@
 
 ## Contribute
 
-PRs accepted.
+We most welcome contributions from you. Issue is generally a good safe way to
+go. For more active participation, forking the project and opening a pull 
+request is also acceptable. For security related issues, a more direct email is 
+recommended (email in `cargo.toml` file).  
+You may take a look at the code of conduct that apply as some sort of by-law 
+between participants. If you have anything to report please send an email at 
+the address in the `cargo.toml` file.
 
 ## License
 
