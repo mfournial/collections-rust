@@ -1,4 +1,4 @@
-# Collections for Rust-lang
+# Collections and algorithms for Rust-lang
 
 [![Crates version](https://img.shields.io/crates/v/collections-more.svg)](https://crates.io/crates/collections-more)
 [![Documentation](https://docs.rs/collections-more/badge.svg)](https://docs.rs/collections-more/)
@@ -7,8 +7,6 @@
 [![codecov](https://codecov.io/gh/mfournial/collections-rust/branch/master/graph/badge.svg)](https://codecov.io/gh/mfournial/collections-rust)
 
 <!-- Backup docs: [![Backup docs](https://img.shields.io/readthedocs/pip.svg)](https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/-/jobs/artifacts/master/download?job=doc) -->
-
-# Title
 
 > This is an example file with default selections.
 
@@ -26,7 +24,21 @@
 
 ## Usage
 
+Usage is still being decided and shall for now be marked as a work in progress. 
+We have to evaluate what's the Rust way of packaging easily before committing 
+ourselves to a design.  
+As for example of how to use the different data structures, please refer to the 
+integration tests in the tests folder that show exactly how everything will be 
+holding on in time. The [documentation](https://docs.rs/collections-more/) 
+should be very useful to guide you on how to use the various functionalities of 
+this project.  
+The full details of what is currently available in this library can be found in 
+the documentation, this document being only a facade to the project. 
+Nevertheless it is important to give a few example to understand the purpose of 
+this library so here they are:
+
 ```
+
 ```
 
 ## Contribute
