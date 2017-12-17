@@ -21,7 +21,10 @@
 ## Install
 
 Add this line to your `cargo.toml` in your `[dependencies]` section: 
-```
+```toml
+[dependencies]
+# ...
+collections_more = "1.0.0"
 ```
 and you should be good to go!
 
