@@ -5,6 +5,7 @@
 [![Build Status](https://travis-ci.org/mfournial/collections-rust.svg?branch=master)](https://travis-ci.org/mfournial/collections-rust)
 [![Pipeline Status](https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/badges/master/build.svg)](https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/commits/master)
 [![codecov](https://codecov.io/gh/mfournial/collections-rust/branch/master/graph/badge.svg)](https://codecov.io/gh/mfournial/collections-rust)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 <!-- Backup docs: [![Backup docs](https://img.shields.io/readthedocs/pip.svg)](https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/-/jobs/artifacts/master/download?job=doc) -->
 
@@ -39,8 +40,18 @@ the documentation, this document being only a facade to the project.
 Nevertheless it is important to give a few example to understand the purpose of 
 this library so here they are:
 
-```
+```rust
+extern crate collections_more;
 
+// snip
+
+use collections_more::priority_queue::PriorityQueue;
+
+fn main() {
+	let pq = PriorityQueue::pqueue!(1, 5, 3); // Creates a priority_queue using the macro
+	asserteq!(Some(5), pq.poll()); // Gets the biggest element of the queue O(1)
+	asserteq!(2, pq.len()); // Size of the queue after removing biggest element
+}
 ```
 
 ## Contribute
