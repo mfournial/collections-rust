@@ -19,8 +19,10 @@
 
 ## Install
 
+Add this line to your `cargo.toml` in your `[dependencies]` section: 
 ```
 ```
+and you should be good to go!
 
 ## Usage
 
