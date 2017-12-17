@@ -1,3 +1,10 @@
+pub mod red_black;
+
+trait RedBlackElement {
+
+}
+
+
 #[cfg(test)]
 mod tests {
     #[test]
