@@ -9,7 +9,17 @@
 
 <!-- Backup docs: [![Backup docs](https://img.shields.io/readthedocs/pip.svg)](https://gitlab.doc.ic.ac.uk/mmf115/collections-rust/-/jobs/artifacts/master/download?job=doc) -->
 
-> This is an example file with default selections.
+This crate is an extension of the rust collections crate. If you're used to C++ 
+algorithms and the various Java collections you'll feel just at home.  
+You should use this crate if you want to use some general purpose data 
+structures very easily. Each of them have been tested, and the concurrent 
+versions are thread safe. So scale your project and use lighting fast DS with 
+this crate!  
+
+**Celebs talking about this project:**
+> The best open source project yet (Linus Torvalds)  
+> I wish I had this idea for Microsoft (Bill Gates)  
+> Collections-more is a true revolution (Steve Jobs at RustConf 2017)  
 
 ## Table of contents
 
@@ -20,13 +30,15 @@
 
 ## Install
 
-Add this line to your `cargo.toml` in your `[dependencies]` section: 
+Add this line to your `cargo.toml` in your `[dependencies]` section:  
+
 ```toml
 [dependencies]
 # ...
-collections_more = "1.0.0"
+collections_more = "X.X.X"
 ```
-and you should be good to go!
+replacing `X.X.X` with the version number with the one on the badge above and 
+you should be good to go!
 
 ## Usage
 
