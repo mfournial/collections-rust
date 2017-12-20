@@ -16,11 +16,27 @@ impl<T: PartialOrd + PartialEq + Debug> RedBlackT<T> {
 		}
 	}
 
+	pub fn check(ref rb: &RedBlackT<T>) -> bool {
+		false
+	}
+
 	pub fn insert(&mut self, elem: T) {
 	}
 
 	pub fn remove(&mut self, elem: &T) -> Option<T> {
 		None	
+	}
+
+	pub fn contains(&self, elem: &T) -> bool {
+		false
+	}
+
+	pub fn size(&self) -> usize {
+		self.size
+	}
+
+	pub fn is_empty(&self) -> bool {
+		self.size == 0
 	}
 }
 
@@ -121,12 +137,12 @@ mod tests {
 		rb.insert(53);
 		rb.insert(53);
 		rb.insert(533);
-		RedBlackT::check(rb);
+		RedBlackT::check(&rb);
 		rb.remove(&522);
 		rb.remove(&-40);
 		rb.remove(&53);
 		rb.remove(&0);
-		RedBlackT::check(rb);
+		RedBlackT::check(&rb);
 	}
 
 	#[test]
