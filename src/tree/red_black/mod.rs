@@ -3,39 +3,38 @@ use std::fmt::Debug;
 use self::Colour::*;
 
 #[derive(Debug, PartialEq)]
-pub struct RedBlackT<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> {
-	root: Option<Node<K, V>>,
+pub struct RedBlackT<T: PartialOrd + PartialEq + Debug> {
+	root: Option<Node<T>>,
 	size: usize,
 }
 
-impl<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> RedBlackT<K, V> {
-	pub fn new() -> RedBlackT<K, V> {
+impl<T: PartialOrd + PartialEq + Debug> RedBlackT<T> {
+	pub fn new() -> RedBlackT<T> {
 		RedBlackT {
 			root: None,
 			size: 0
 		}
 	}
 
-	pub fn insert(&mut self, key: K, value: V) {
+	pub fn insert(&mut self, elem: T) {
 	}
 
-	pub fn remove(&mut self, key: K) -> Option<V> {
+	pub fn remove(&mut self, elem: &T) -> Option<T> {
 		None	
 	}
 }
 
 #[derive(Debug)]
-struct Node<K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq> {
-	key: K,
-	value: V,
+struct Node<T: PartialOrd + PartialEq + Debug> {
+	elem: T,
 	colour: Colour
 }
 
-impl<K, V> PartialEq for Node<K, V>
-    where K: PartialOrd + PartialEq + Debug, V: Debug + PartialEq
+impl<T> PartialEq for Node<T>
+    where T: PartialOrd + PartialEq + Debug
 {
-	fn eq(&self, other: &Node<K, V>) -> bool {
-		return self.key == other.key && self.value == other.value;
+	fn eq(&self, other: &Node<T>) -> bool {
+		return self.elem== other.elem
 	}
 }
 
