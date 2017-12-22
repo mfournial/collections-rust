@@ -21,6 +21,11 @@ impl<T: PartialOrd + PartialEq + Debug> RedBlackT<T> {
 	}
 
 	pub fn insert(&mut self, elem: T) {
+		if self.root.is_none() {
+			self.root = Some(Node::new(elem, Black));
+		} else {
+			// self.root.//insert(elem);
+		}
 	}
 
 	pub fn remove(&mut self, elem: &T) -> Option<T> {
@@ -44,6 +49,16 @@ impl<T: PartialOrd + PartialEq + Debug> RedBlackT<T> {
 struct Node<T: PartialOrd + PartialEq + Debug> {
 	elem: T,
 	colour: Colour
+}
+
+impl<T: PartialOrd + PartialEq + Debug> Node<T> {
+	fn new(elem: T, colour: Colour) -> Node<T> {
+		Node{ elem, colour }
+	}
+
+	fn insert(&mut self, elem: T) {
+
+	}
 }
 
 impl<T> PartialEq for Node<T>
@@ -148,6 +163,7 @@ mod tests {
 	#[test]
 	fn red_black_can_be_iterated_in_order() {
 		let mut rb: RedBlackT<i32> = RedBlackT::new();
+		// Creates a complex RBtree
 		rb.insert(5);
 		rb.insert(5);
 		rb.insert(0);
@@ -160,5 +176,11 @@ mod tests {
 		rb.insert(53);
 		rb.insert(53);
 		rb.insert(533);
+		
+		let expected = vec![-40, -25, 0, 1, 3, 5, 5, 53, 53, 81, 522, 533];
+
+		for (elem, index) in rb.enumerator() {
+			assert_eq!(expected.peek(index), elem);
+		}
 	}
 }
