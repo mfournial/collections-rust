@@ -29,7 +29,7 @@ impl<T: PartialOrd + PartialEq + Debug> RedBlackT<T> {
 	}
 
 	pub fn remove(&mut self, elem: &T) -> Option<T> {
-		None	
+		None
 	}
 
 	pub fn contains(&self, elem: &T) -> bool {
@@ -176,7 +176,7 @@ mod tests {
 		rb.insert(53);
 		rb.insert(53);
 		rb.insert(533);
-		
+
 		let expected = vec![-40, -25, 0, 1, 3, 5, 5, 53, 53, 81, 522, 533];
 
 		for (elem, index) in rb.enumerator() {
