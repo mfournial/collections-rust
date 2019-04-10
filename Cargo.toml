@@ -5,6 +5,8 @@ authors = ["mfournial (Mike -Mayeul- Fournial)<mayeul.fournial@outlook.com>"]
 description = """
 Common data structure and algorithms for rust-lang to complete the already excellent std::collections
 """
+edition = "2018"
+license = "MIT"
 license-file = "LICENSE"
 documentation = "https://docs.rs/collections-more/0.1.4/collections_more/"
 readme = "README.md"
